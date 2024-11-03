@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ffc40c2e.css",
+    "main.js": "/static/js/main.fee2fcda.js",
+    "static/media/synthwave.jpg": "/static/media/synthwave.7c9db55fdec4ad47aeb5.jpg",
+    "index.html": "/index.html",
+    "main.ffc40c2e.css.map": "/static/css/main.ffc40c2e.css.map",
+    "main.fee2fcda.js.map": "/static/js/main.fee2fcda.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ffc40c2e.css",
+    "static/js/main.fee2fcda.js"
+  ]
+}
