@@ -83,7 +83,9 @@ def pred_and_plot_image(model: torch.nn.Module,
     return target_image_pred_probs
 
 
-def scoring_main(image):
+
+
+def scoring_main(player_turn: dict):
 
   model_info = torch.load('model/trained_models/model_0.pth', weights_only=False)
   model_state_dict = model_info['model_state_dict']
@@ -98,7 +100,7 @@ def scoring_main(image):
 
   custom_image_transform = transforms.Compose([transforms.Resize(size=(64,64))])
 
-  custom_image_path = image
+  custom_image_path = player_turn['data'][0]
   target_image_pred_probs = pred_and_plot_image(model=model_inst, 
                                                 image_path=custom_image_path,
                                                 class_names=class_names,
@@ -107,11 +109,12 @@ def scoring_main(image):
 
   data_dict = dict(zip(class_names, target_image_pred_probs.tolist()[0]))
   data_dict = dict(sorted(data_dict.items(), key=lambda item: item[1], reverse = True))
-  scores = json.dumps(data_dict, indent=4)
 
-  print(scores)
+  prompt = player_turn['data'][1].lower()
+  print(data_dict[prompt])
 
-  return scores
+  return data_dict[prompt]
+  
 
 if __name__ == '__main__':
-   scoring_main('data/test/dread/39.jpg')
+   scores = scoring_main({'data': ['data/test/dread/39.jpg', 'dread']})
