@@ -4,6 +4,7 @@ import torchvision
 from torchvision import transforms
 import matplotlib.pyplot as plt
 from typing import List
+from PIL import Image
 import json
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -86,6 +87,11 @@ def pred_and_plot_image(model: torch.nn.Module,
 
 
 def scoring_main(player_turn: dict):
+  save_path = 'data/temp/user_drawing.jpg'  # Replace with your desired path
+
+  image = player_turn['data'][0]
+  image.save(save_path)
+  
 
   model_info = torch.load('model/trained_models/model_0.pth', weights_only=False)
   model_state_dict = model_info['model_state_dict']
@@ -102,7 +108,7 @@ def scoring_main(player_turn: dict):
 
   custom_image_path = player_turn['data'][0]
   target_image_pred_probs = pred_and_plot_image(model=model_inst, 
-                                                image_path=custom_image_path,
+                                                image_path=save_path,
                                                 class_names=class_names,
                                                 transform=custom_image_transform,
                                                 device=device)
@@ -111,10 +117,11 @@ def scoring_main(player_turn: dict):
   data_dict = dict(sorted(data_dict.items(), key=lambda item: item[1], reverse = True))
 
   prompt = player_turn['data'][1].lower()
-  print(data_dict[prompt])
+  # print(data_dict, prompt, data_dict[prompt])
 
   return data_dict[prompt]
   
 
 if __name__ == '__main__':
-   scores = scoring_main({'data': ['data/test/dread/39.jpg', 'dread']})
+   image = Image.open('data/test/dread/66.jpg')
+   scores = scoring_main({'data': [image, 'dread']})
