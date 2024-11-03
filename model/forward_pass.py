@@ -1,5 +1,6 @@
 import torch
 import torchvision
+from torchvision import transforms
 import matplotlib.pyplot as plt
 from typing import List # for type hinting
 
@@ -39,11 +40,16 @@ def pred_and_plot_image(model: torch.nn.Module,
       plt.axis(False)
 
 
-model_0 = torch.load('trained_models/model_0.pth', weights_only=False)
-model_0.eval()
+model = torch.load('trained_models/model_0.pth', weights_only=False)
+model_state_dict = model['model_state_dict']
+class_names = model['class_names']
+
+model.eval()
+
+custom_image_transform = transforms.Compose([transforms.Resize(size=(600,600))])
 
 custom_image_path = '../dark-grey-background-phpf8ys7h4fgijgt-3755329406.jpg'
-pred_and_plot_image(model=model_0,
+pred_and_plot_image(model=model,
                     image_path=custom_image_path,
                     class_names=class_names,
                     transform=custom_image_transform,
