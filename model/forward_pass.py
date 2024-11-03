@@ -115,11 +115,12 @@ def scoring_main(player_turn: dict):
 
   data_dict = dict(zip(class_names, target_image_pred_probs.tolist()[0]))
   data_dict = dict(sorted(data_dict.items(), key=lambda item: item[1], reverse = True))
+  data_json = json.dumps(data_dict, indent=4)
 
-  prompt = player_turn['data'][1].lower()
+  # prompt = player_turn['data'][1].lower()
   # print(data_dict, prompt, data_dict[prompt])
 
-  return data_dict[prompt]
+  return data_json
   
 
 if __name__ == '__main__':
